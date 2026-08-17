@@ -399,9 +399,35 @@ def include_directories(*paths, is_system=False):
     return _gIncludeDirectories[name]
 
 
+class GaokunFsModule:
+    """Minimal 'fs' module stub: the Android build never compiles OpenCL, so the
+    -fmacro-prefix-map prefix derived from fs.relative_to() does not matter."""
+
+    def relative_to(self, a, b, *args, **kwargs):
+        return "."
+
+    def exists(self, path, *args, **kwargs):
+        import os
+        return os.path.exists(str(path))
+
+    def is_dir(self, path, *args, **kwargs):
+        import os
+        return os.path.isdir(str(path))
+
+    def name(self, path, *args, **kwargs):
+        import os
+        return os.path.basename(str(path))
+
+    def parent(self, path, *args, **kwargs):
+        import os
+        return os.path.dirname(str(path))
+
+
 def module_import(name: str):
     if name == 'python':
         return impl.PythonModule()
+    if name == 'fs':
+        return GaokunFsModule()
     if name == 'pkgconfig' and meson_translator.host_machine.lower() == 'fuchsia':
         return BazelPkgConfigModule()
     if name == 'pkgconfig' and meson_translator.host_machine.lower() == 'android':
@@ -1098,7 +1124,8 @@ def _process_wrapped_args_for_python(
 
 # TODO(bpnguyen): merge custom_target
 def custom_target(
-    target_name: str,
+    target_name: str = None,  # gaokun: meson 允许匿名，见下方推导
+
     build_always=False,
     build_always_stale=False,
     build_by_default=False,
@@ -1117,6 +1144,13 @@ def custom_target(
     install_tag=[],
     output=[],
 ):
+    # gaokun: 匿名 custom_target —— 用 output（或首个 input）推导名字
+    if target_name is None:
+        _o = output if not isinstance(output, list) else (output[0] if output else None)
+        if _o is None:
+            _i = input if not isinstance(input, list) else (input[0] if input else 'anon')
+            _o = str(_i)
+        target_name = str(_o).replace('/', '_')
     target_name = _process_target_name(target_name)
     print('Custom target: ' + target_name)
     assert type(command) is list

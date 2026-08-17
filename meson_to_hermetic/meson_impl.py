@@ -128,6 +128,43 @@ class Dependency:
         return self.unique_id == other.unique_id
 
 
+def _gaokun_ver_tuple(text):
+    parts = []
+    for chunk in str(text).strip().split('.'):
+        digits = ''
+        for ch in chunk:
+            if ch.isdigit():
+                digits += ch
+            else:
+                break
+        parts.append(int(digits) if digits else 0)
+    return tuple(parts)
+
+
+class MesonStr(str):
+    """字符串 + meson 语言方法（gaokun）。"""
+
+    def version_compare(self, spec):
+        spec = str(spec).strip()
+        for op in ('>=', '<=', '==', '!=', '>', '<'):
+            if spec.startswith(op):
+                rhs = spec[len(op):].strip()
+                break
+        else:
+            op, rhs = '==', spec
+        a, b = _gaokun_ver_tuple(self), _gaokun_ver_tuple(rhs)
+        w = max(len(a), len(b))
+        a, b = a + (0,) * (w - len(a)), b + (0,) * (w - len(b))
+        return {'>=': a >= b, '<=': a <= b, '==': a == b,
+                '!=': a != b, '>': a > b, '<': a < b}[op]
+
+    def split(self, *args, **kwargs):
+        return [MesonStr(s) for s in str.split(self, *args, **kwargs)]
+
+    def strip(self, *args, **kwargs):
+        return MesonStr(str.strip(self, *args, **kwargs))
+
+
 class CommandReturn:
     def __init__(self, completed_process):
         self.completed_process = completed_process
@@ -136,7 +173,11 @@ class CommandReturn:
         return self.completed_process.returncode
 
     def stdout(self):
-        return self.completed_process.stdout
+        # gaokun: capture_output 下是 bytes；返回带 meson 语义的字符串
+        out = self.completed_process.stdout
+        if isinstance(out, bytes):
+            out = out.decode("utf-8", "replace")
+        return MesonStr(out if out is not None else "")
 
 
 class Program:
@@ -194,6 +235,21 @@ class FeatureOption:
         if value and self.state == EnableState.AUTO:
             self.state = EnableState.DISABLED
         return self
+
+    def enable_if(self, value: bool, error_message: str = ''):
+
+        # gaokun: meson 0.59+ API
+
+        if not value:
+
+            return self
+
+        if self.state == EnableState.DISABLED:
+
+            exit(error_message)
+
+        return FeatureOption(self.name, state=EnableState.ENABLED)
+
 
     def disable_if(self, value: bool, error_message: str):
         if not value:
@@ -357,6 +413,18 @@ class Meson:
 
     def project_version(self):
         return _gProjectVersion
+
+    def global_source_root(self, *args, **kwargs):
+
+        # gaokun: 非子项目场景与 project_source_root 等价
+
+        return self.project_source_root(*args, **kwargs)
+
+
+    def global_build_root(self, *args, **kwargs):
+
+        return self.project_build_root(*args, **kwargs)
+
 
     def project_source_root(self):
         return os.getcwd()
@@ -658,6 +726,15 @@ def dependency(*names, required=True, version=''):
         if name == '':
             return Dependency('null', version, found=False)
 
+        # gaokun: libdrm 在 AOSP 里是 vendor_available 共享库，报告为已找到；
+        # 否则 mesa 跳过 vk_drm_syncobj.c，turnip 链接期缺符号。
+        if name == 'libdrm':
+            return Dependency(
+                name,
+                targets=[DependencyTarget('libdrm', DependencyTargetType(1))],
+                version=version,
+                found=True,
+            )
         if name in external_dep:
             targets = external_dep.get(name)
             return Dependency(
@@ -678,7 +755,6 @@ def dependency(*names, required=True, version=''):
             or name == 'libmagma_virt'
             or name == 'libva'
             or name == 'libzstd'
-            or name == 'libdrm'
             or name == 'libglvnd'
             or name == 'libudev'
             or name == 'libunwind'

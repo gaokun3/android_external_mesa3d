@@ -67,7 +67,9 @@ def declare_dependency(
     )
 
 
-def find_program(name: str, required=False, native=False, disabler=False, version=''):
+def find_program(name: str, *alt_names, required=False, native=False, disabler=False, version=''):
+    # gaokun: meson 允许多候选名 find_program('flex','lex',...)
+    del alt_names
     if type(required) is impl.FeatureOption:
         required = required.state == impl.EnableState.ENABLED
     if type(required) is not bool:
@@ -89,10 +91,18 @@ def find_program(name: str, required=False, native=False, disabler=False, versio
         or name == 'install_megadrivers.py'
         or name == 'nm'
         or name == 'python'
+        or name == 'python3'  # gaokun: mesa 25.3 用 python3
         or name == 'symbols-check.py'
         or name == 'sphinx-build'
     ):
-        return impl.Program(name, found=required)
+        # gaokun: PATH 里真有就算找到（原来只看 required，导致
+        # prog_python.found() 为假，custom_target 断言失败）。
+        # 注：glslangValidator 也要算“找到”—— turnip 的 bvh 目录是无条件
+        # subdir，视其不可用会让 vk_bvh_include_dir 未定义而生成失败。
+        # Soong 沙箱不许用 PATH 上的它，所以我们在树里补了 host 模块
+        # （patches/0003-*.patch），合并脚本会把 cmd 改写成 $(location ...)。
+        import shutil
+        return impl.Program(name, found=(shutil.which(name) is not None) or required)
 
     exit('Unhandled program check: ' + name)
 
@@ -222,7 +232,7 @@ def get_option(name):
     if name == 'debug':
         return True
     if name == 'b_sanitize':
-        return False
+        return 'none'  # gaokun: 生成代码按字符串用
     if name == 'backend':
         return 'custom'
 
@@ -234,7 +244,8 @@ def project(name, language_list, version, license, meson_version, default_option
 
 
 def run_command(program, *commands, check=False):
-    return program.run_command(commands)
+    # gaokun: 解包 commands 并开启输出捕获（调用方会 .stdout()）
+    return program.run_command(*commands, capture_output=True)
 
 
 def environment():

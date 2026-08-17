@@ -40,14 +40,14 @@ if with_gallium_drisw_kms
 else
   libswkmsdri = []
 endif
-if with_platform_windows
+if false and with_platform_windows
   subdir('winsys/sw/gdi')
 else
   libwsgdi = null_dep
 endif
 subdir('winsys/sw/wrapper')
-if with_platform_haiku
-  subdir('winsys/sw/hgl')
+if false and with_platform_haiku
+#   subdir('winsys/sw/hgl')
 endif
 if with_gallium_softpipe
   subdir('drivers/softpipe')
@@ -196,8 +196,8 @@ if with_gallium_zink
 else
   driver_zink = declare_dependency()
 endif
-if with_gallium_d3d12
-  subdir('drivers/d3d12')
+if false and with_gallium_d3d12
+#   subdir('drivers/d3d12')
 else
   driver_d3d12 = declare_dependency()
 endif
@@ -222,31 +222,31 @@ if with_gallium_vdpau
     subdir('targets/vdpau')
   endif
 endif
-if with_gallium_mediafoundation
-  subdir('frontends/mediafoundation')
-  subdir('targets/mediafoundation')
+if false and with_gallium_mediafoundation
+#   subdir('frontends/mediafoundation')
+#   subdir('targets/mediafoundation')
 endif
 if with_dri
   subdir('frontends/dri')
   subdir('targets/dri')
 endif
-if with_platform_haiku
-  subdir('frontends/hgl')
+if false and with_platform_haiku
+#   subdir('frontends/hgl')
 endif
-if with_gallium_st_d3d10umd
-  subdir('frontends/d3d10umd')
-  subdir('targets/d3d10umd')
+if false and with_gallium_st_d3d10umd
+#   subdir('frontends/d3d10umd')
+#   subdir('targets/d3d10umd')
 endif
 if with_platform_windows
   if with_opengl
-    subdir('frontends/wgl')
+#     subdir('frontends/wgl')
     if with_gallium_d3d12
-      subdir('winsys/d3d12/wgl')
+#       subdir('winsys/d3d12/wgl')
     else
       winsys_d3d12_wgl = declare_dependency()
     endif
-    subdir('targets/wgl')
-    subdir('targets/libgl-gdi')
+#     subdir('targets/wgl')
+#     subdir('targets/libgl-gdi')
   endif
 endif
 if with_swrast_vk
