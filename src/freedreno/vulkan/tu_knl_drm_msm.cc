@@ -1103,7 +1103,10 @@ tu_knl_drm_msm_load(struct tu_instance *instance,
                                               &device->va_size);
    device->has_raytracing = tu_drm_get_raytracing(device);
 
-   device->has_preemption = tu_drm_has_preemption(device);
+   /* gaokun3 / Adreno 690: mixed-priority preemption wedges the GMU.
+    * Upstream gaokun-android patch 0005; keep disabled pending a firmware fix. */
+   device->has_preemption = false;
+   (void) tu_drm_has_preemption;
 
    /* Even if kernel is new enough, the GPU itself may not support it. */
    device->has_cached_coherent_memory =
