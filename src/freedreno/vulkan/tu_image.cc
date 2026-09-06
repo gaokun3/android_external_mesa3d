@@ -913,10 +913,87 @@ tu_BindImageMemory2(VkDevice _device,
       VK_FROM_HANDLE(tu_image, image, pBindInfos[i].image);
       VK_FROM_HANDLE(tu_device_memory, mem, pBindInfos[i].memory);
 
+      VkDeviceSize offset = pBindInfos[i].memoryOffset;
       if (!mem) {
 #if DETECT_OS_ANDROID
-         /* TODO handle VkNativeBufferANDROID */
-         UNREACHABLE("VkBindImageMemoryInfo with no memory");
+      /* ★ Android loader 的延迟绑定：gralloc buffer 是在 **bind 这一刻**
+       * 才通过 pNext 的 VkNativeBufferANDROID 递进来的（vkCreateImage 时没有，
+       * 故 vk.anb_memory 为空）。这正是 mesa 那句
+       * "TODO handle VkNativeBufferANDROID" 指的路径。不实现它 =
+       * image 永远没内存、iova 恒 0 → GPU 写地址 0 → SMMU translation fault。
+       * (gaokun patch 0004 v3；实测调用方 ANGLE → libvulkan) */
+      const VkNativeBufferANDROID *anb =
+         vk_find_struct_const(pBindInfos[i].pNext, NATIVE_BUFFER_ANDROID);
+      if (anb) {
+         /* 造一份等价 create info，pNext 指向刚拿到的 ANB，直接复用 runtime
+          * 的两个 helper（它们都以 VkImageCreateInfo 为入口）。 */
+         VkImageCreateInfo anb_ci = {
+            .sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
+            .pNext = (const void *) anb,
+            .flags = image->vk.create_flags,
+            .imageType = image->vk.image_type,
+            .format = image->vk.format,
+            .extent = image->vk.extent,
+            .mipLevels = image->vk.mip_levels,
+            .arrayLayers = image->vk.array_layers,
+            .samples = (VkSampleCountFlagBits) image->vk.samples,
+            .tiling = image->vk.tiling,
+            .usage = image->vk.usage,
+            .sharingMode = image->vk.sharing_mode,
+            .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+         };
+
+         /* ① 按 gralloc buffer 的真实布局重算：image 默认走 UBWC，而 gralloc
+          *    可能是 LINEAR（我们现在 vendor.minigbm.debug=nocompression），
+          *    不重算就是错位渲染 + 越界写。 */
+         VkImageDrmFormatModifierExplicitCreateInfoEXT anb_eci;
+         VkSubresourceLayout anb_plane_layouts[TU_MAX_PLANE_COUNT];
+         VkResult result = vk_android_get_anb_layout(&anb_ci, &anb_eci,
+                                           anb_plane_layouts,
+                                           TU_MAX_PLANE_COUNT);
+         if (result != VK_SUCCESS)
+            return result;
+
+         result = TU_CALLX(device, tu_image_update_layout)(
+            device, image, anb_eci.drmFormatModifier, anb_plane_layouts);
+         if (result != VK_SUCCESS)
+            return result;
+
+         /* ② 真正导入并绑定。vk_android_import_anb() 会 dup dma-buf fd、
+          *    以 dedicated 方式 AllocateMemory 存进 vk.anb_memory，然后自己
+          *    再调一次 BindImageMemory2 —— 那次 memory 非空，会走下面的正常
+          *    路径把 mem/iova 落实，所以这里导入完直接返回。
+          *    ⚠️ 重复绑定（BufferQueue 轮转）要先放掉上一块，否则漏 dma-buf。 */
+         if (image->vk.anb_memory != VK_NULL_HANDLE) {
+            device->vk.dispatch_table.FreeMemory(tu_device_to_handle(device),
+                                                 image->vk.anb_memory, NULL);
+            image->vk.anb_memory = VK_NULL_HANDLE;
+         }
+
+         result = vk_android_import_anb(&device->vk, &anb_ci, NULL, &image->vk);
+         const VkBindMemoryStatusKHR *anb_status =
+            vk_find_struct_const(pBindInfos[i].pNext, BIND_MEMORY_STATUS_KHR);
+         if (anb_status)
+            *anb_status->pResult = result;
+         if (result != VK_SUCCESS)
+            return result;
+         continue;
+      }
+
+      if (image->vk.anb_memory != VK_NULL_HANDLE) {
+         /* create 时就导入过 ANB 的老路（真 ANB image 的重复绑定）。 */
+         mem = tu_device_memory_from_handle(image->vk.anb_memory);
+         offset = 0;
+      } else {
+         /* 既没 ANB、又没已导入内存：无可绑定。跳过而不是 UB，但要吼一声
+          * —— 这条路走通了就意味着又有 image 会拿着 iova 0 去渲染。 */
+         static unsigned n_unbindable = 0;
+         if (n_unbindable++ < 8)
+            mesa_logw("gaokun 无法绑定的 NULL-bind #%u：既无 VkNativeBufferANDROID "
+                      "也无 anb_memory，image %p 将保持 iova=0", n_unbindable,
+                      (void *) image);
+         return VK_SUCCESS;
+      }
 #else
          const VkBindImageMemorySwapchainInfoKHR *swapchain_info =
             vk_find_struct_const(pBindInfos[i].pNext,
@@ -956,8 +1033,8 @@ tu_BindImageMemory2(VkDevice _device,
          }
       }
       image->bo = mem->bo;
-      image->bo_offset = pBindInfos[i].memoryOffset;
-      image->iova = mem->bo->iova + pBindInfos[i].memoryOffset;
+      image->bo_offset = offset;
+      image->iova = mem->bo->iova + offset;
 
       if (image->vk.usage & (VK_IMAGE_USAGE_FRAGMENT_DENSITY_MAP_BIT_EXT |
                              VK_IMAGE_USAGE_HOST_TRANSFER_BIT_EXT)) {
@@ -970,7 +1047,7 @@ tu_BindImageMemory2(VkDevice _device,
             }
          }
 
-         image->map = (char *) mem->bo->map + pBindInfos[i].memoryOffset;
+         image->map = (char *) mem->bo->map + offset;
       } else {
          image->map = NULL;
       }
