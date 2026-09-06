@@ -7,6 +7,7 @@ import os
 import meson_impl as impl
 import tomllib
 import re
+from meson_to_hermetic.soong_paths import sandbox_directory_inputs
 
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
@@ -68,14 +69,17 @@ def generate_build_file(translator, build_type: str):
         # Render genrules / custom targets
         custom_target_template = jinja_env.get_template(path + 'genrule.txt')
         for custom_target in translator.meson_state.custom_targets:
+            cmd, srcs = custom_target.cmd, custom_target.srcs
+            if build_type == 'soong':
+                cmd, srcs = sandbox_directory_inputs(cmd, srcs, Path.cwd())
             genrule = custom_target_template.render(
                 name=custom_target.name,
-                srcs=custom_target.srcs,
+                srcs=srcs,
                 outs=custom_target.out,
                 tools=custom_target.tools,
                 export=len(custom_target.export_include_dirs) > 0,
                 export_include_dirs=custom_target.export_include_dirs,
-                cmd=custom_target.cmd,
+                cmd=cmd,
             )
             file.write(genrule)
 

@@ -11097,10 +11097,11 @@ genrule {
 genrule {
   name: "lbvh_generate_ir.spv.h",
   srcs: [
-    "src/vulkan/runtime/bvh/vk_bvh.h",
-    "src/vulkan/runtime/bvh/vk_build_interface.h",
-    "src/vulkan/runtime/bvh/vk_build_helpers.h",
     "src/vulkan/runtime/bvh/lbvh_generate_ir.comp",
+    "src/vulkan/runtime/bvh/leaf.h",
+    "src/vulkan/runtime/bvh/vk_build_helpers.h",
+    "src/vulkan/runtime/bvh/vk_build_interface.h",
+    "src/vulkan/runtime/bvh/vk_bvh.h",
   ],
   out: [
     "src/vulkan/runtime/bvh/lbvh_generate_ir.spv.h",
@@ -11119,14 +11120,15 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/lbvh_generate_ir.spv.h) $(location src/vulkan/runtime/bvh/lbvh_generate_ir.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/lbvh_generate_ir.spv.h) $(location src/vulkan/runtime/bvh/lbvh_generate_ir.comp) --quiet"
 }
 genrule {
   name: "lbvh_main.spv.h",
   srcs: [
-    "src/vulkan/runtime/bvh/vk_build_interface.h",
-    "src/vulkan/runtime/bvh/vk_build_helpers.h",
     "src/vulkan/runtime/bvh/lbvh_main.comp",
+    "src/vulkan/runtime/bvh/leaf.h",
+    "src/vulkan/runtime/bvh/vk_build_helpers.h",
+    "src/vulkan/runtime/bvh/vk_build_interface.h",
     "src/vulkan/runtime/bvh/vk_bvh.h",
   ],
   out: [
@@ -11146,12 +11148,13 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/lbvh_main.spv.h) $(location src/vulkan/runtime/bvh/lbvh_main.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/lbvh_main.spv.h) $(location src/vulkan/runtime/bvh/lbvh_main.comp) --quiet"
 }
 genrule {
   name: "leaf.spv.h",
   srcs: [
     "src/vulkan/runtime/bvh/leaf.comp",
+    "src/vulkan/runtime/bvh/leaf.h",
     "src/vulkan/runtime/bvh/vk_build_helpers.h",
     "src/vulkan/runtime/bvh/vk_build_interface.h",
     "src/vulkan/runtime/bvh/vk_bvh.h",
@@ -11173,14 +11176,15 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/leaf.spv.h) $(location src/vulkan/runtime/bvh/leaf.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/leaf.spv.h) $(location src/vulkan/runtime/bvh/leaf.comp) --quiet"
 }
 genrule {
   name: "morton.spv.h",
   srcs: [
+    "src/vulkan/runtime/bvh/leaf.h",
     "src/vulkan/runtime/bvh/morton.comp",
-    "src/vulkan/runtime/bvh/vk_build_interface.h",
     "src/vulkan/runtime/bvh/vk_build_helpers.h",
+    "src/vulkan/runtime/bvh/vk_build_interface.h",
     "src/vulkan/runtime/bvh/vk_bvh.h",
   ],
   out: [
@@ -11200,14 +11204,15 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/morton.spv.h) $(location src/vulkan/runtime/bvh/morton.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/morton.spv.h) $(location src/vulkan/runtime/bvh/morton.comp) --quiet"
 }
 genrule {
   name: "ploc_internal.spv.h",
   srcs: [
-    "src/vulkan/runtime/bvh/vk_build_interface.h",
-    "src/vulkan/runtime/bvh/vk_build_helpers.h",
+    "src/vulkan/runtime/bvh/leaf.h",
     "src/vulkan/runtime/bvh/ploc_internal.comp",
+    "src/vulkan/runtime/bvh/vk_build_helpers.h",
+    "src/vulkan/runtime/bvh/vk_build_interface.h",
     "src/vulkan/runtime/bvh/vk_bvh.h",
   ],
   out: [
@@ -11227,7 +11232,7 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/ploc_internal.spv.h) $(location src/vulkan/runtime/bvh/ploc_internal.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` --target-env spirv1.5 -x -o $(location src/vulkan/runtime/bvh/ploc_internal.spv.h) $(location src/vulkan/runtime/bvh/ploc_internal.comp) --quiet"
 }
 genrule {
   name: "astc_spv.h",
@@ -11300,10 +11305,26 @@ genrule {
 genrule {
   name: "adreno.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/a2xx.xml",
+    "src/freedreno/registers/adreno/a3xx.xml",
+    "src/freedreno/registers/adreno/a4xx.xml",
+    "src/freedreno/registers/adreno/a5xx.xml",
+    "src/freedreno/registers/adreno/a6xx.xml",
+    "src/freedreno/registers/adreno/a6xx_descriptors.xml",
+    "src/freedreno/registers/adreno/a6xx_enums.xml",
+    "src/freedreno/registers/adreno/a6xx_gmu.xml",
+    "src/freedreno/registers/adreno/a6xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/a7xx_enums.xml",
+    "src/freedreno/registers/adreno/a7xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_control_regs.xml",
+    "src/freedreno/registers/adreno/adreno_pipe_regs.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/adreno/ocmem.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno.xml.h",
@@ -11321,7 +11342,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno.xml) c-defines > $(location src/freedreno/registers/adreno.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno.xml) c-defines > $(location src/freedreno/registers/adreno.xml.h)"
 }
 genrule {
   name: "adreno.xml.gz",
@@ -11392,10 +11413,12 @@ genrule {
 genrule {
   name: "a2xx.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/a2xx.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a2xx.xml.h",
@@ -11414,7 +11437,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a2xx.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a2xx.xml) c-defines > $(location src/freedreno/registers/adreno/a2xx.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a2xx.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a2xx.xml) c-defines > $(location src/freedreno/registers/adreno/a2xx.xml.h)"
 }
 genrule {
   name: "a2xx.xml.gz",
@@ -11442,10 +11465,12 @@ genrule {
 genrule {
   name: "a3xx.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a3xx.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a3xx.xml.h",
@@ -11464,7 +11489,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a3xx.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a3xx.xml) c-defines > $(location src/freedreno/registers/adreno/a3xx.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a3xx.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a3xx.xml) c-defines > $(location src/freedreno/registers/adreno/a3xx.xml.h)"
 }
 genrule {
   name: "a3xx.xml.gz",
@@ -11492,10 +11517,12 @@ genrule {
 genrule {
   name: "a4xx.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/a4xx.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a4xx.xml.h",
@@ -11514,7 +11541,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a4xx.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a4xx.xml) c-defines > $(location src/freedreno/registers/adreno/a4xx.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a4xx.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a4xx.xml) c-defines > $(location src/freedreno/registers/adreno/a4xx.xml.h)"
 }
 genrule {
   name: "a4xx.xml.gz",
@@ -11543,9 +11570,11 @@ genrule {
   name: "a5xx.xml.h",
   srcs: [
     "src/freedreno/registers/adreno/a5xx.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a5xx.xml.h",
@@ -11564,7 +11593,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a5xx.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a5xx.xml) c-defines > $(location src/freedreno/registers/adreno/a5xx.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a5xx.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a5xx.xml) c-defines > $(location src/freedreno/registers/adreno/a5xx.xml.h)"
 }
 genrule {
   name: "a5xx.xml.gz",
@@ -11592,10 +11621,17 @@ genrule {
 genrule {
   name: "a6xx.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a6xx.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/a6xx_descriptors.xml",
+    "src/freedreno/registers/adreno/a6xx_enums.xml",
+    "src/freedreno/registers/adreno/a6xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/a7xx_enums.xml",
+    "src/freedreno/registers/adreno/a7xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx.xml.h",
@@ -11614,7 +11650,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx.xml.h)"
 }
 genrule {
   name: "a6xx.xml.gz",
@@ -11642,10 +11678,12 @@ genrule {
 genrule {
   name: "a6xx_enums.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a6xx_enums.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_enums.xml.h",
@@ -11664,7 +11702,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_enums.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_enums.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_enums.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_enums.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_enums.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_enums.xml.h)"
 }
 genrule {
   name: "a6xx_enums.xml.gz",
@@ -11693,9 +11731,12 @@ genrule {
   name: "a6xx_descriptors.xml.h",
   srcs: [
     "src/freedreno/registers/adreno/a6xx_descriptors.xml",
+    "src/freedreno/registers/adreno/a6xx_enums.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_descriptors.xml.h",
@@ -11714,7 +11755,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_descriptors.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_descriptors.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_descriptors.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_descriptors.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_descriptors.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_descriptors.xml.h)"
 }
 genrule {
   name: "a6xx_descriptors.xml.gz",
@@ -11743,9 +11784,11 @@ genrule {
   name: "a6xx_perfcntrs.xml.h",
   srcs: [
     "src/freedreno/registers/adreno/a6xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_perfcntrs.xml.h",
@@ -11764,7 +11807,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_perfcntrs.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_perfcntrs.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_perfcntrs.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_perfcntrs.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_perfcntrs.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_perfcntrs.xml.h)"
 }
 genrule {
   name: "a6xx_perfcntrs.xml.gz",
@@ -11793,9 +11836,11 @@ genrule {
   name: "a7xx_enums.xml.h",
   srcs: [
     "src/freedreno/registers/adreno/a7xx_enums.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a7xx_enums.xml.h",
@@ -11814,7 +11859,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_enums.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a7xx_enums.xml) c-defines > $(location src/freedreno/registers/adreno/a7xx_enums.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_enums.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a7xx_enums.xml) c-defines > $(location src/freedreno/registers/adreno/a7xx_enums.xml.h)"
 }
 genrule {
   name: "a7xx_enums.xml.gz",
@@ -11842,10 +11887,12 @@ genrule {
 genrule {
   name: "a7xx_perfcntrs.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a7xx_perfcntrs.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a7xx_perfcntrs.xml.h",
@@ -11864,7 +11911,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_perfcntrs.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a7xx_perfcntrs.xml) c-defines > $(location src/freedreno/registers/adreno/a7xx_perfcntrs.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_perfcntrs.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a7xx_perfcntrs.xml) c-defines > $(location src/freedreno/registers/adreno/a7xx_perfcntrs.xml.h)"
 }
 genrule {
   name: "a7xx_perfcntrs.xml.gz",
@@ -11892,10 +11939,11 @@ genrule {
 genrule {
   name: "a6xx_gmu.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/a6xx_gmu.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_gmu.xml.h",
@@ -11914,7 +11962,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_gmu.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_gmu.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_gmu.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_gmu.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_gmu.xml) c-defines > $(location src/freedreno/registers/adreno/a6xx_gmu.xml.h)"
 }
 genrule {
   name: "a6xx_gmu.xml.gz",
@@ -11944,8 +11992,8 @@ genrule {
   srcs: [
     "src/freedreno/registers/adreno/ocmem.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/ocmem.xml.h",
@@ -11964,7 +12012,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location ocmem.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/ocmem.xml) c-defines > $(location src/freedreno/registers/adreno/ocmem.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location ocmem.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/ocmem.xml) c-defines > $(location src/freedreno/registers/adreno/ocmem.xml.h)"
 }
 genrule {
   name: "ocmem.xml.gz",
@@ -11994,8 +12042,8 @@ genrule {
   srcs: [
     "src/freedreno/registers/adreno/adreno_control_regs.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_control_regs.xml.h",
@@ -12014,7 +12062,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_control_regs.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_control_regs.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_control_regs.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_control_regs.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_control_regs.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_control_regs.xml.h)"
 }
 genrule {
   name: "adreno_control_regs.xml.gz",
@@ -12044,8 +12092,8 @@ genrule {
   srcs: [
     "src/freedreno/registers/adreno/adreno_pipe_regs.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_pipe_regs.xml.h",
@@ -12064,7 +12112,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pipe_regs.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_pipe_regs.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_pipe_regs.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pipe_regs.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_pipe_regs.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_pipe_regs.xml.h)"
 }
 genrule {
   name: "adreno_pipe_regs.xml.gz",
@@ -12092,10 +12140,10 @@ genrule {
 genrule {
   name: "adreno_common.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_common.xml.h",
@@ -12114,7 +12162,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_common.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_common.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_common.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_common.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_common.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_common.xml.h)"
 }
 genrule {
   name: "adreno_common.xml.gz",
@@ -12142,10 +12190,11 @@ genrule {
 genrule {
   name: "adreno_pm4.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
     "src/freedreno/registers/adreno/adreno_pm4.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_pm4.xml.h",
@@ -12164,7 +12213,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pm4.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_pm4.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_pm4.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pm4.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_pm4.xml) c-defines > $(location src/freedreno/registers/adreno/adreno_pm4.xml.h)"
 }
 genrule {
   name: "adreno_pm4.xml.gz",
@@ -12192,10 +12241,17 @@ genrule {
 genrule {
   name: "a6xx-pack.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a6xx.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/a6xx_descriptors.xml",
+    "src/freedreno/registers/adreno/a6xx_enums.xml",
+    "src/freedreno/registers/adreno/a6xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/a7xx_enums.xml",
+    "src/freedreno/registers/adreno/a7xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx-pack.xml.h",
@@ -12214,15 +12270,16 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx-pack.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx.xml) c-pack-structs > $(location src/freedreno/registers/adreno/a6xx-pack.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx-pack.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx.xml) c-pack-structs > $(location src/freedreno/registers/adreno/a6xx-pack.xml.h)"
 }
 genrule {
   name: "adreno-pm4-pack.xml.h",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
     "src/freedreno/registers/adreno/adreno_pm4.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno-pm4-pack.xml.h",
@@ -12241,15 +12298,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno-pm4-pack.xml.h_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_pm4.xml) c-pack-structs > $(location src/freedreno/registers/adreno/adreno-pm4-pack.xml.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno-pm4-pack.xml.h_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_pm4.xml) c-pack-structs > $(location src/freedreno/registers/adreno/adreno-pm4-pack.xml.h)"
 }
 genrule {
   name: "a2xx.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/a2xx.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a2xx.py",
@@ -12268,15 +12327,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a2xx.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a2xx.xml) py-defines > $(location src/freedreno/registers/adreno/a2xx.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a2xx.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a2xx.xml) py-defines > $(location src/freedreno/registers/adreno/a2xx.py)"
 }
 genrule {
   name: "a3xx.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a3xx.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a3xx.py",
@@ -12295,15 +12356,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a3xx.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a3xx.xml) py-defines > $(location src/freedreno/registers/adreno/a3xx.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a3xx.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a3xx.xml) py-defines > $(location src/freedreno/registers/adreno/a3xx.py)"
 }
 genrule {
   name: "a4xx.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/a4xx.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a4xx.py",
@@ -12322,15 +12385,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a4xx.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a4xx.xml) py-defines > $(location src/freedreno/registers/adreno/a4xx.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a4xx.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a4xx.xml) py-defines > $(location src/freedreno/registers/adreno/a4xx.py)"
 }
 genrule {
   name: "a5xx.py",
   srcs: [
     "src/freedreno/registers/adreno/a5xx.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a5xx.py",
@@ -12349,15 +12414,22 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a5xx.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a5xx.xml) py-defines > $(location src/freedreno/registers/adreno/a5xx.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a5xx.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a5xx.xml) py-defines > $(location src/freedreno/registers/adreno/a5xx.py)"
 }
 genrule {
   name: "a6xx.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a6xx.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/a6xx_descriptors.xml",
+    "src/freedreno/registers/adreno/a6xx_enums.xml",
+    "src/freedreno/registers/adreno/a6xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/a7xx_enums.xml",
+    "src/freedreno/registers/adreno/a7xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx.py",
@@ -12376,15 +12448,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx.py)"
 }
 genrule {
   name: "a6xx_enums.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a6xx_enums.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_enums.py",
@@ -12403,15 +12477,18 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_enums.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_enums.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_enums.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_enums.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_enums.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_enums.py)"
 }
 genrule {
   name: "a6xx_descriptors.py",
   srcs: [
     "src/freedreno/registers/adreno/a6xx_descriptors.xml",
+    "src/freedreno/registers/adreno/a6xx_enums.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_descriptors.py",
@@ -12430,15 +12507,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_descriptors.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_descriptors.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_descriptors.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_descriptors.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_descriptors.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_descriptors.py)"
 }
 genrule {
   name: "a6xx_perfcntrs.py",
   srcs: [
     "src/freedreno/registers/adreno/a6xx_perfcntrs.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_perfcntrs.py",
@@ -12457,15 +12536,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_perfcntrs.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_perfcntrs.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_perfcntrs.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_perfcntrs.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_perfcntrs.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_perfcntrs.py)"
 }
 genrule {
   name: "a7xx_enums.py",
   srcs: [
     "src/freedreno/registers/adreno/a7xx_enums.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a7xx_enums.py",
@@ -12484,15 +12565,17 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_enums.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a7xx_enums.xml) py-defines > $(location src/freedreno/registers/adreno/a7xx_enums.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_enums.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a7xx_enums.xml) py-defines > $(location src/freedreno/registers/adreno/a7xx_enums.py)"
 }
 genrule {
   name: "a7xx_perfcntrs.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/adreno/a7xx_perfcntrs.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/adreno/adreno_pm4.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a7xx_perfcntrs.py",
@@ -12511,15 +12594,16 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_perfcntrs.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a7xx_perfcntrs.xml) py-defines > $(location src/freedreno/registers/adreno/a7xx_perfcntrs.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a7xx_perfcntrs.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a7xx_perfcntrs.xml) py-defines > $(location src/freedreno/registers/adreno/a7xx_perfcntrs.py)"
 }
 genrule {
   name: "a6xx_gmu.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/a6xx_gmu.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/a6xx_gmu.py",
@@ -12538,15 +12622,15 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_gmu.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/a6xx_gmu.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_gmu.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location a6xx_gmu.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/a6xx_gmu.xml) py-defines > $(location src/freedreno/registers/adreno/a6xx_gmu.py)"
 }
 genrule {
   name: "ocmem.py",
   srcs: [
     "src/freedreno/registers/adreno/ocmem.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/ocmem.py",
@@ -12565,15 +12649,15 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location ocmem.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/ocmem.xml) py-defines > $(location src/freedreno/registers/adreno/ocmem.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location ocmem.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/ocmem.xml) py-defines > $(location src/freedreno/registers/adreno/ocmem.py)"
 }
 genrule {
   name: "adreno_control_regs.py",
   srcs: [
     "src/freedreno/registers/adreno/adreno_control_regs.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_control_regs.py",
@@ -12592,15 +12676,15 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_control_regs.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_control_regs.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_control_regs.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_control_regs.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_control_regs.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_control_regs.py)"
 }
 genrule {
   name: "adreno_pipe_regs.py",
   srcs: [
     "src/freedreno/registers/adreno/adreno_pipe_regs.xml",
     "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_pipe_regs.py",
@@ -12619,15 +12703,15 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pipe_regs.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_pipe_regs.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_pipe_regs.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pipe_regs.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_pipe_regs.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_pipe_regs.py)"
 }
 genrule {
   name: "adreno_common.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
-    "src/freedreno/registers/rules-fd.xsd",
     "src/freedreno/registers/adreno/adreno_common.xml",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_common.py",
@@ -12646,15 +12730,16 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_common.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_common.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_common.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_common.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_common.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_common.py)"
 }
 genrule {
   name: "adreno_pm4.py",
   srcs: [
-    "src/freedreno/registers/freedreno_copyright.xml",
+    "src/freedreno/registers/adreno/adreno_common.xml",
     "src/freedreno/registers/adreno/adreno_pm4.xml",
-    "src/freedreno/registers/rules-fd.xsd",
+    "src/freedreno/registers/freedreno_copyright.xml",
     "src/freedreno/registers/gen_header.py",
+    "src/freedreno/registers/rules-fd.xsd",
   ],
   out: [
     "src/freedreno/registers/adreno/adreno_pm4.py",
@@ -12673,7 +12758,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pm4.py_gen_header.py) --rnn /home/cool/crd/external/mesa3d/src/freedreno/registers --xml $(location src/freedreno/registers/adreno/adreno_pm4.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_pm4.py)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/registers/gen_header.py)`: python3 $(location adreno_pm4.py_gen_header.py) --rnn `dirname $(location src/freedreno/registers/gen_header.py)` --xml $(location src/freedreno/registers/adreno/adreno_pm4.xml) py-defines > $(location src/freedreno/registers/adreno/adreno_pm4.py)"
 }
 genrule {
   name: "freedreno_devices.h",
@@ -12832,14 +12917,14 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_trig.py)`: python3 $(location ir3_nir_trig.c_ir3_nir_trig.py) -p /home/cool/crd/external/mesa3d/src/compiler/nir/ > $(location src/freedreno/ir3/ir3_nir_trig.c)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_trig.py)`: python3 $(location ir3_nir_trig.c_ir3_nir_trig.py) -p `dirname $(location src/compiler/nir/nir_algebraic.py)` > $(location src/freedreno/ir3/ir3_nir_trig.c)"
 }
 genrule {
   name: "ir3_nir_imul.c",
   srcs: [
     "src/compiler/nir/nir_algebraic.py",
-    "src/freedreno/ir3/ir3_nir_imul.py",
     "src/compiler/nir/nir_opcodes.py",
+    "src/freedreno/ir3/ir3_nir_imul.py",
   ],
   out: [
     "src/freedreno/ir3/ir3_nir_imul.c",
@@ -12857,7 +12942,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_imul.py)`: python3 $(location ir3_nir_imul.c_ir3_nir_imul.py) -p /home/cool/crd/external/mesa3d/src/compiler/nir/ > $(location src/freedreno/ir3/ir3_nir_imul.c)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_imul.py)`: python3 $(location ir3_nir_imul.c_ir3_nir_imul.py) -p `dirname $(location src/compiler/nir/nir_algebraic.py)` > $(location src/freedreno/ir3/ir3_nir_imul.c)"
 }
 genrule {
   name: "ir3_nir_branch_and_or_not.c",
@@ -12882,7 +12967,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_branch_and_or_not.py)`: python3 $(location ir3_nir_branch_and_or_not.c_ir3_nir_branch_and_or_not.py) -p /home/cool/crd/external/mesa3d/src/compiler/nir/ > $(location src/freedreno/ir3/ir3_nir_branch_and_or_not.c)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_branch_and_or_not.py)`: python3 $(location ir3_nir_branch_and_or_not.c_ir3_nir_branch_and_or_not.py) -p `dirname $(location src/compiler/nir/nir_algebraic.py)` > $(location src/freedreno/ir3/ir3_nir_branch_and_or_not.c)"
 }
 genrule {
   name: "ir3_nir_triop_bitwise.c",
@@ -12907,7 +12992,7 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_triop_bitwise.py)`: python3 $(location ir3_nir_triop_bitwise.c_ir3_nir_triop_bitwise.py) -p /home/cool/crd/external/mesa3d/src/compiler/nir/ > $(location src/freedreno/ir3/ir3_nir_triop_bitwise.c)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/ir3/ir3_nir_triop_bitwise.py)`: python3 $(location ir3_nir_triop_bitwise.c_ir3_nir_triop_bitwise.py) -p `dirname $(location src/compiler/nir/nir_algebraic.py)` > $(location src/freedreno/ir3/ir3_nir_triop_bitwise.c)"
 }
 genrule {
   name: "ir3_parser.ch.h",
@@ -13022,13 +13107,14 @@ genrule {
 genrule {
   name: "encode.spv.h",
   srcs: [
-    "src/vulkan/runtime/bvh/vk_build_interface.h",
-    "src/vulkan/runtime/bvh/vk_bvh.h",
-    "src/vulkan/runtime/bvh/vk_build_helpers.h",
-    "src/freedreno/vulkan/bvh/tu_bvh.h",
     "src/freedreno/vulkan/bvh/encode.comp",
     "src/freedreno/vulkan/bvh/tu_build_helpers.h",
     "src/freedreno/vulkan/bvh/tu_build_interface.h",
+    "src/freedreno/vulkan/bvh/tu_bvh.h",
+    "src/vulkan/runtime/bvh/leaf.h",
+    "src/vulkan/runtime/bvh/vk_build_helpers.h",
+    "src/vulkan/runtime/bvh/vk_build_interface.h",
+    "src/vulkan/runtime/bvh/vk_bvh.h",
   ],
   out: [
     "src/freedreno/vulkan/bvh/encode.spv.h",
@@ -13047,18 +13133,19 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh -I/home/cool/crd/external/mesa3d/src/freedreno/vulkan/bvh --target-env spirv1.5 -x -o $(location src/freedreno/vulkan/bvh/encode.spv.h) $(location src/freedreno/vulkan/bvh/encode.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` -I`dirname $(location src/freedreno/vulkan/bvh/tu_bvh.h)` --target-env spirv1.5 -x -o $(location src/freedreno/vulkan/bvh/encode.spv.h) $(location src/freedreno/vulkan/bvh/encode.comp) --quiet"
 }
 genrule {
   name: "header.spv.h",
   srcs: [
+    "src/freedreno/vulkan/bvh/header.comp",
+    "src/freedreno/vulkan/bvh/tu_build_helpers.h",
+    "src/freedreno/vulkan/bvh/tu_build_interface.h",
+    "src/freedreno/vulkan/bvh/tu_bvh.h",
+    "src/vulkan/runtime/bvh/leaf.h",
+    "src/vulkan/runtime/bvh/vk_build_helpers.h",
     "src/vulkan/runtime/bvh/vk_build_interface.h",
     "src/vulkan/runtime/bvh/vk_bvh.h",
-    "src/vulkan/runtime/bvh/vk_build_helpers.h",
-    "src/freedreno/vulkan/bvh/tu_bvh.h",
-    "src/freedreno/vulkan/bvh/tu_build_helpers.h",
-    "src/freedreno/vulkan/bvh/header.comp",
-    "src/freedreno/vulkan/bvh/tu_build_interface.h",
   ],
   out: [
     "src/freedreno/vulkan/bvh/header.spv.h",
@@ -13077,18 +13164,19 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh -I/home/cool/crd/external/mesa3d/src/freedreno/vulkan/bvh --target-env spirv1.5 -x -o $(location src/freedreno/vulkan/bvh/header.spv.h) $(location src/freedreno/vulkan/bvh/header.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` -I`dirname $(location src/freedreno/vulkan/bvh/tu_bvh.h)` --target-env spirv1.5 -x -o $(location src/freedreno/vulkan/bvh/header.spv.h) $(location src/freedreno/vulkan/bvh/header.comp) --quiet"
 }
 genrule {
   name: "copy.spv.h",
   srcs: [
-    "src/vulkan/runtime/bvh/vk_build_interface.h",
-    "src/vulkan/runtime/bvh/vk_bvh.h",
     "src/freedreno/vulkan/bvh/copy.comp",
-    "src/vulkan/runtime/bvh/vk_build_helpers.h",
-    "src/freedreno/vulkan/bvh/tu_bvh.h",
     "src/freedreno/vulkan/bvh/tu_build_helpers.h",
     "src/freedreno/vulkan/bvh/tu_build_interface.h",
+    "src/freedreno/vulkan/bvh/tu_bvh.h",
+    "src/vulkan/runtime/bvh/leaf.h",
+    "src/vulkan/runtime/bvh/vk_build_helpers.h",
+    "src/vulkan/runtime/bvh/vk_build_interface.h",
+    "src/vulkan/runtime/bvh/vk_bvh.h",
   ],
   out: [
     "src/freedreno/vulkan/bvh/copy.spv.h",
@@ -13107,13 +13195,13 @@ genrule {
        
      ],
   
-  cmd: " $(location glslangValidator) -V -I/home/cool/crd/external/mesa3d/src/vulkan/runtime/bvh -I/home/cool/crd/external/mesa3d/src/freedreno/vulkan/bvh --target-env spirv1.5 -x -o $(location src/freedreno/vulkan/bvh/copy.spv.h) $(location src/freedreno/vulkan/bvh/copy.comp) --quiet"
+  cmd: " $(location glslangValidator) -V -I`dirname $(location src/vulkan/runtime/bvh/vk_bvh.h)` -I`dirname $(location src/freedreno/vulkan/bvh/tu_bvh.h)` --target-env spirv1.5 -x -o $(location src/freedreno/vulkan/bvh/copy.spv.h) $(location src/freedreno/vulkan/bvh/copy.comp) --quiet"
 }
 genrule {
   name: "tu_tracepoints.ch.h",
   srcs: [
-    "src/util/perf/u_trace.py",
     "src/freedreno/vulkan/tu_tracepoints.py",
+    "src/util/perf/u_trace.py",
   ],
   out: [
     "src/freedreno/vulkan/tu_tracepoints.cc.dummy.h",
@@ -13133,13 +13221,13 @@ genrule {
        
      ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/vulkan/tu_tracepoints.py)`: python3 $(location tu_tracepoints.ch_tu_tracepoints.py) -p /home/cool/crd/external/mesa3d/src/util/perf/ --utrace-src $(location src/freedreno/vulkan/tu_tracepoints.cc.dummy.h) --utrace-hdr $(location src/freedreno/vulkan/tu_tracepoints.h) --perfetto-hdr $(location src/freedreno/vulkan/tu_tracepoints_perfetto.h); echo '//nothing to see here' > $(location src/freedreno/vulkan/tu_tracepoints.cc.dummy.h)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/vulkan/tu_tracepoints.py)`: python3 $(location tu_tracepoints.ch_tu_tracepoints.py) -p `dirname $(location src/util/perf/u_trace.py)` --utrace-src $(location src/freedreno/vulkan/tu_tracepoints.cc.dummy.h) --utrace-hdr $(location src/freedreno/vulkan/tu_tracepoints.h) --perfetto-hdr $(location src/freedreno/vulkan/tu_tracepoints_perfetto.h); echo '//nothing to see here' > $(location src/freedreno/vulkan/tu_tracepoints.cc.dummy.h)"
 }
 genrule {
   name: "tu_tracepoints.ch.c",
   srcs: [
-    "src/util/perf/u_trace.py",
     "src/freedreno/vulkan/tu_tracepoints.py",
+    "src/util/perf/u_trace.py",
   ],
   out: [
     "src/freedreno/vulkan/tu_tracepoints.cc",
@@ -13150,7 +13238,7 @@ genrule {
     "tu_tracepoints.ch_tu_tracepoints.py",
   ],
   
-  cmd: " PYTHONPATH=`dirname $(location src/freedreno/vulkan/tu_tracepoints.py)`: python3 $(location tu_tracepoints.ch_tu_tracepoints.py) -p /home/cool/crd/external/mesa3d/src/util/perf/ --utrace-src $(location src/freedreno/vulkan/tu_tracepoints.cc) --utrace-hdr $(genDir)/src/freedreno/vulkan/tu_tracepoints.h --perfetto-hdr $(genDir)/src/freedreno/vulkan/tu_tracepoints_perfetto.h; echo '//nothing to see here' > $(location src/freedreno/vulkan/tu_tracepoints.h.dummy.c); echo '//nothing to see here' > $(location src/freedreno/vulkan/tu_tracepoints_perfetto.h.dummy.c)"
+  cmd: " PYTHONPATH=`dirname $(location src/freedreno/vulkan/tu_tracepoints.py)`: python3 $(location tu_tracepoints.ch_tu_tracepoints.py) -p `dirname $(location src/util/perf/u_trace.py)` --utrace-src $(location src/freedreno/vulkan/tu_tracepoints.cc) --utrace-hdr $(genDir)/src/freedreno/vulkan/tu_tracepoints.h --perfetto-hdr $(genDir)/src/freedreno/vulkan/tu_tracepoints_perfetto.h; echo '//nothing to see here' > $(location src/freedreno/vulkan/tu_tracepoints.h.dummy.c); echo '//nothing to see here' > $(location src/freedreno/vulkan/tu_tracepoints_perfetto.h.dummy.c)"
 }
 genrule {
   name: "freedreno_icd",
